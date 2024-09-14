@@ -1,30 +1,59 @@
-const Discord = require("discord.js")
-const { execSync } = require("child_process");
+const Discord = require("discord.js");
+const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
-const bot = new Discord.Client({intents: 3276799})
+const bot = new Discord.Client({ intents: 3276799 });
 const dgram = require("dgram");
 
 const configPath = path.join(__dirname, "config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 
-bot.login(config.token)
+bot.login(config.token);
 
 bot.on("ready", async () => {
-    console.log(`${bot.user.tag} is online`)
-
-    const output = execSync("python api.py").toString();
-    if (output.includes("request from pyton")) {
-        console.log("The Python script has started");
+    console.log(`${bot.user.tag} is online`);
+    
+    try {
+        let child = spawn("python", ["api.py"]);
+        console.log("Started");
+    } catch (error) {
+        console.warn(error);
     }
-})
+});
 
 const server = dgram.createSocket("udp4");
 
 server.on("message", (message, rinfo) => {
     try {
-        const json = JSON.parse(message.toString());
-        console.log(json);
+        console.log(`Message received from ${rinfo.address}:${rinfo.port}`);
+        const jsonArray = JSON.parse(message.toString());
+        console.log("Received data:", jsonArray);
+
+        jsonArray.forEach(json => {
+            const embed = new Discord.EmbedBuilder()
+                .setColor(json.background_color)
+                .setTitle("Professeur Absent ou Cours annulé")
+                .setThumbnail(config.imageurl)
+                .addFields(
+                    { name: "Professeur", value: json.teacher_name, inline: true },
+                    { name: "Salle", value: json.classroom, inline: true },
+                    { name: "\u200B", value: "\u200B", inline: true },
+                    { name: "Début", value: new Date(json.start).toLocaleDateString("fr-FR", { year: "numeric", month: "long", day: "numeric" }) + " " + new Date(json.start).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), inline: true },
+                    { name: "Fin", value: new Date(json.end).toLocaleDateString("fr-FR", { year: "numeric", month: "long", day: "numeric" }) + " " + new Date(json.end).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), inline: true }
+                )
+                .setTimestamp()
+                .setFooter({ text: "PronoteBOT by okza", iconURL: config.iconurl });
+
+            const channel = bot.channels.cache.get("1283497573302272040");
+            if (channel) {
+                channel.send({ embeds: [embed] })
+                    .then(() => console.log("Embed sent successfully"))
+                    .catch(console.error);
+            } else {
+                console.error("Channel not found");
+            }
+        });
+
     } catch (error) {
         console.error("Failed to parse message:", error);
     }
