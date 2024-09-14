@@ -9,6 +9,7 @@
   "license": "GPL-3.0",
   "description": "",
   "dependencies": {
+    "dgram": "^1.0.1",
     "discord.js": "^14.16.2"
   }
 }
