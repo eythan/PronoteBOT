@@ -15,7 +15,7 @@ bot.on("ready", async () => {
     
     try {
         let child = spawn("python", ["api.py"]);
-        console.log("Started");
+        console.log("Python script has started successfully");
     } catch (error) {
         console.warn(error);
     }
@@ -25,9 +25,7 @@ const server = dgram.createSocket("udp4");
 
 server.on("message", (message, rinfo) => {
     try {
-        console.log(`Message received from ${rinfo.address}:${rinfo.port}`);
         const jsonArray = JSON.parse(message.toString());
-        console.log("Received data:", jsonArray);
 
         jsonArray.forEach(json => {
             const embed = new Discord.EmbedBuilder()
@@ -38,16 +36,19 @@ server.on("message", (message, rinfo) => {
                     { name: "Professeur", value: json.teacher_name, inline: true },
                     { name: "Salle", value: json.classroom, inline: true },
                     { name: "\u200B", value: "\u200B", inline: true },
-                    { name: "Début", value: new Date(json.start).toLocaleDateString("fr-FR", { year: "numeric", month: "long", day: "numeric" }) + " " + new Date(json.start).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), inline: true },
-                    { name: "Fin", value: new Date(json.end).toLocaleDateString("fr-FR", { year: "numeric", month: "long", day: "numeric" }) + " " + new Date(json.end).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), inline: true }
+                    { name: "Début", value: new Date(json.start).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" }) + " " + new Date(json.start).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), inline: true },
+                    { name: "Fin", value: new Date(json.end).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" }) + " " + new Date(json.end).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), inline: true }
                 )
                 .setTimestamp()
                 .setFooter({ text: "PronoteBOT by okza", iconURL: config.iconurl });
 
-            const channel = bot.channels.cache.get("1283497573302272040");
+            const channel = bot.channels.cache.get(config.absentchannel);
             if (channel) {
                 channel.send({ embeds: [embed] })
-                    .then(() => console.log("Embed sent successfully"))
+                    .then((message) => {
+                        const sentDate = message.createdAt.toLocaleString(config.locale, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" });
+                        console.log(`Embed sent successfully with ID: ${json.id} at ${sentDate}`);
+                    })
                     .catch(console.error);
             } else {
                 console.error("Channel not found");

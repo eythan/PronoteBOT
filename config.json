@@ -1,8 +1,10 @@
 {
     "token": "TOKEN",
+    "locale": "fr-FR",
     "username": "EntUsername",
     "password": "EntPassword",
     "url": "PronoteURL",
     "imageurl": "EmbedImage",
-    "iconurl": "EmbedIcon"
+    "iconurl": "EmbedIcon",
+    "absentchannel": "AbsentChannel"
 }

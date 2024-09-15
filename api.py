@@ -20,8 +20,8 @@ sent_ids = set()
 def fetch_and_send_absences():
     global sent_ids
     
-    date_from = datetime.date(2024, 9, 2)
-    date_to = datetime.date(2024, 9, 20)
+    date_from = datetime.date.today()
+    date_to = date_from + datetime.timedelta(days=30)
 
     absences = client.lessons(date_from, date_to)
 
@@ -50,12 +50,11 @@ def fetch_and_send_absences():
 
         try:
             sock.sendto(json_data.encode("utf-8"), server_address)
-        except Exception as e:
-            print(e)
+        except Exception as error:
+            print(error)
         finally:
             sock.close()
 
 while True:
-    print("PY: Update")
     fetch_and_send_absences()
     time.sleep(10)
