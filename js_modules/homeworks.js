@@ -6,6 +6,7 @@ module.exports = function handleHomeworks(bot, json, config) {
         .setTitle("Devoir à rendre")
         .setThumbnail(config.homeworkImageURL)
         .addFields(
+            { name: "Matière", value: json.subject, inline: false },
             { name: "Description du devoir", value: json.description, inline: false },
             { name: "Date limite", value: new Date(json.date).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" }), inline: false }
         )

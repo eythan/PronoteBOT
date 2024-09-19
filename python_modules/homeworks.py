@@ -14,12 +14,15 @@ def process_homeworks(client, seen_homeworks_ids):
             homeworks_info = {
                 "id": h.id,
                 "type": "homeworks",
-                "description": h.description,
-                "background_color": h.background_color,
-                "date": h.date.isoformat(),
+                "description": h.description if h.description else "Unknown",
+                "subject": h.subject.name if h.subject else "Unknown",
+                "background_color": h.background_color if h.background_color else "Unknown",
+                "date": h.date.isoformat() if h.date else "Unknown"
             }
             homeworks_data.append(homeworks_info)
             seen_homeworks_ids.add(h.id)
+
+    homeworks_data.sort(key=lambda x: x["date"])
 
     if homeworks_data:
         json_data = json.dumps(homeworks_data)

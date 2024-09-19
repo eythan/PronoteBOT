@@ -6,6 +6,7 @@ module.exports = function handleAbsences(bot, json, config) {
         .setTitle("Professeur Absent ou Cours annulé")
         .setThumbnail(config.absenceImageURL)
         .addFields(
+            { name: "Matière", value: json.subject, inline: false },
             { name: "Professeur", value: json.teacher_name, inline: false },
             { name: "Salle", value: json.classroom, inline: false },
             { name: "Début", value: new Date(json.start).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" }) + " " + new Date(json.start).toLocaleTimeString(config.locale, { hour: "2-digit", minute: "2-digit" }), inline: false },
