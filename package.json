@@ -5,11 +5,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Eythan",
-  "license": "GPL-3.0",
+  "author": "Eythan Franceus",
+  "license": "MIT",
   "description": "",
   "dependencies": {
-    "dgram": "^1.0.1",
     "discord.js": "^14.16.2"
   }
 }

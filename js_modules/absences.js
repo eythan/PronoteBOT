@@ -3,17 +3,16 @@ const Discord = require("discord.js");
 module.exports = function handleAbsences(bot, json, config) {
     const absencesEmbed = new Discord.EmbedBuilder()
         .setColor(json.background_color)
-        .setTitle("Professeur Absent ou Cours annulé")
+        .setTitle("🔔 Cours Annulé")
         .setThumbnail(config.absenceImageURL)
         .addFields(
-            { name: "Matière", value: json.subject, inline: false },
-            { name: "Professeur", value: json.teacher_name, inline: false },
-            { name: "Salle", value: json.classroom, inline: false },
-            { name: "Début", value: new Date(json.start).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" }) + " " + new Date(json.start).toLocaleTimeString(config.locale, { hour: "2-digit", minute: "2-digit" }), inline: false },
-            { name: "Fin", value: new Date(json.end).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" }) + " " + new Date(json.end).toLocaleTimeString(config.locale, { hour: "2-digit", minute: "2-digit" }), inline: false }
+            { name: "📝 Matière", value: json.subject.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" "), inline: false },
+            { name: "👨‍🏫 Professeur", value: json.teacher_name.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" "), inline: false },
+            { name: "🏫 Salle", value: json.classroom, inline: false },
+            { name: "🕒 Heure :", value: `${new Date(json.start).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" })} de ${new Date(json.start).toLocaleTimeString(config.locale, { hour: "2-digit", minute: "2-digit" })} à ${new Date(json.end).toLocaleTimeString(config.locale, { hour: "2-digit", minute: "2-digit" })}`, inline: false }
         )
         .setTimestamp()
-        .setFooter({ text: "PronoteBOT by okza", iconURL: config.iconURL });
+        .setFooter({ text: "PronoteBOT by okza", iconURL: bot.user.displayAvatarURL() });
 
     const absencesChannel = bot.channels.cache.get(config.absenceChannel);
     if (absencesChannel) {

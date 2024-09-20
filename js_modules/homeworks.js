@@ -3,15 +3,15 @@ const Discord = require("discord.js");
 module.exports = function handleHomeworks(bot, json, config) {
     const homeworksEmbed = new Discord.EmbedBuilder()
         .setColor(json.background_color)
-        .setTitle("Devoir à rendre")
+        .setTitle("📚 Devoir à rendre")
         .setThumbnail(config.homeworkImageURL)
         .addFields(
-            { name: "Matière", value: json.subject, inline: false },
-            { name: "Description du devoir", value: json.description, inline: false },
-            { name: "Date limite", value: new Date(json.date).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" }), inline: false }
+            { name: "📝 Matière", value: json.subject.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" "), inline: false },
+            { name: "📖 Description du devoir", value: json.description, inline: false },
+            { name: "📅 Date limite", value: new Date(json.date).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" }), inline: false }
         )
         .setTimestamp()
-        .setFooter({ text: "PronoteBOT by okza", iconURL: config.iconURL });
+        .setFooter({ text: "PronoteBOT by okza", iconURL: bot.user.displayAvatarURL() });
 
     const homeworksChannel = bot.channels.cache.get(config.homeworkChannel);
     if (homeworksChannel) {
