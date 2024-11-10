@@ -15,10 +15,7 @@ client = Client(
     ent=occitanie_toulouse_edu
 )
 
-seen_absences_ids = set()
-seen_homeworks_ids = set()
-
 while True:
-    process_absences(client, seen_absences_ids)
-    process_homeworks(client, seen_homeworks_ids)
+    process_absences(client)
+    process_homeworks(client)
     time.sleep(1800)

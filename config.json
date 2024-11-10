@@ -1,11 +1,13 @@
 {
-    "token": "",
-    "locale": "fr-FR",
+    "pronoteURL": "https://0310047h.index-education.net/pronote/eleve.html",
     "username": "",
     "password": "",
-    "pronoteURL": "",
-    "homeworkImageURL": "",
-    "absenceImageURL": "",
+
+    "local": "fr-FR",
+    "homeworkImageURL": "https://cdn.discordapp.com/attachments/1002876628281606176/1305294572317966508/Sans_titre.png?ex=673281cd&is=6731304d&hm=ffdd02d33d32331bb2fd79fc071109a598ac01721fb13960652abe41b7ea7d10&",
+    "absenceImageURL": "https://cdn.discordapp.com/attachments/1002876628281606176/1305294572317966508/Sans_titre.png?ex=673281cd&is=6731304d&hm=ffdd02d33d32331bb2fd79fc071109a598ac01721fb13960652abe41b7ea7d10&",
     "absenceChannel": "",
-    "homeworkChannel": ""
+    "homeworkChannel": "",
+
+    "token": ""
 }

@@ -8,7 +8,7 @@ module.exports = function handleHomeworks(bot, json, config) {
         .addFields(
             { name: "📝 Matière", value: json.subject.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" "), inline: false },
             { name: "📖 Description du devoir", value: json.description, inline: false },
-            { name: "📅 Date limite", value: new Date(json.date).toLocaleDateString(config.locale, { year: "numeric", month: "long", day: "numeric" }), inline: false }
+            { name: "📅 Date limite", value: new Date(json.date).toLocaleDateString(config.local, { year: "numeric", month: "long", day: "numeric" }), inline: false }
         )
         .setTimestamp()
         .setFooter({ text: "PronoteBOT by okza", iconURL: bot.user.displayAvatarURL() });
@@ -17,7 +17,7 @@ module.exports = function handleHomeworks(bot, json, config) {
     if (homeworksChannel) {
         homeworksChannel.send({ embeds: [homeworksEmbed] })
             .then((message) => {
-                const sentDate = message.createdAt.toLocaleString(config.locale, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" });
+                const sentDate = message.createdAt.toLocaleString(config.local, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" });
                 console.log(`Homework embed sent successfully with ID: ${json.id} at ${sentDate}`);
             })
             .catch(console.error);

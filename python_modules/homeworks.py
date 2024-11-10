@@ -2,7 +2,11 @@ import json
 import socket
 import datetime
 
-def process_homeworks(client, seen_homeworks_ids):
+seen_homeworks = set()
+
+def process_homeworks(client):
+    global seen_homeworks
+    
     date_from = datetime.date.today()
     date_to = date_from + datetime.timedelta(days=30)
 
@@ -10,17 +14,23 @@ def process_homeworks(client, seen_homeworks_ids):
     homeworks_data = []
 
     for h in homeworks:
-        if h.id not in seen_homeworks_ids:
+        description = h.description.strip() if h.description else "Unknown"
+        date = h.date.isoformat() if h.date else "Unknown"
+
+        unique_key = f"{description}-{date}"
+
+        if unique_key not in seen_homeworks:
             homeworks_info = {
                 "id": h.id,
                 "type": "homeworks",
-                "description": h.description if h.description else "Unknown",
+                "description": description,
                 "subject": h.subject.name if h.subject else "Unknown",
                 "background_color": h.background_color if h.background_color else "Unknown",
-                "date": h.date.isoformat() if h.date else "Unknown"
+                "date": date
             }
             homeworks_data.append(homeworks_info)
-            seen_homeworks_ids.add(h.id)
+
+            seen_homeworks.add(unique_key)
 
     homeworks_data.sort(key=lambda x: x["date"])
 
@@ -33,6 +43,7 @@ def send_data(json_data, port):
     server_address = ("localhost", port)
 
     try:
+        print("Sending data to Discord bot:", json_data)
         sock.sendto(json_data.encode("utf-8"), server_address)
     except Exception as error:
         print(f"Error sending data: {error}")
