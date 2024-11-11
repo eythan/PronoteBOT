@@ -1,13 +1,12 @@
 {
     "pronoteURL": "https://0310047h.index-education.net/pronote/eleve.html",
-    "username": "",
-    "password": "",
-
+    "username": "t.dubois1",
+    "password": "mdE365eyQK={C-6",
+    "ent": "occitanie_toulouse_edu",
     "local": "fr-FR",
-    "homeworkImageURL": "https://cdn.discordapp.com/attachments/1002876628281606176/1305294572317966508/Sans_titre.png?ex=673281cd&is=6731304d&hm=ffdd02d33d32331bb2fd79fc071109a598ac01721fb13960652abe41b7ea7d10&",
-    "absenceImageURL": "https://cdn.discordapp.com/attachments/1002876628281606176/1305294572317966508/Sans_titre.png?ex=673281cd&is=6731304d&hm=ffdd02d33d32331bb2fd79fc071109a598ac01721fb13960652abe41b7ea7d10&",
-    "absenceChannel": "",
-    "homeworkChannel": "",
-
-    "token": ""
+    "homeworkImageURL": "https://urlr.me/WRzYT",
+    "absenceImageURL": "https://urlr.me/WRzYT",
+    "absenceChannel": "1286403078169296977",
+    "homeworkChannel": "1283497573302272040",
+    "token": "SPt8W0_w2xFsg.u2yF1gXa7aZWmMPr93YsNPHv.t2g8gJiyZ597QAY9cnBP2"
 }

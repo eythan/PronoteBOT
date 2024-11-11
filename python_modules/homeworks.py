@@ -43,7 +43,6 @@ def send_data(json_data, port):
     server_address = ("localhost", port)
 
     try:
-        print("Sending data to Discord bot:", json_data)
         sock.sendto(json_data.encode("utf-8"), server_address)
     except Exception as error:
         print(f"Error sending data: {error}")

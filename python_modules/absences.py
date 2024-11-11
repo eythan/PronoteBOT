@@ -19,17 +19,15 @@ def process_absences(client):
         }
 
     for h in absences:
-        if h.start in seen:
-            if h.status in ["Cours annulé", "Prof. absent"]:
+        if h.start not in seen:
+            if h.status in ["Cours annulé", "Prof. absent", "Absences de professeur"]:
                 overlapping = any(
                     lesson["status"] != "None" and
                     (h.start < lesson["end"] and h.end > lesson["start"])
                     for lesson in lessons_dict.values()
                 )
-
                 if overlapping:
                     continue
-
                 absences_info = {
                     "id": h.id,
                     "type": "absences",
