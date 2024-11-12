@@ -2,32 +2,25 @@ import json
 import socket
 import datetime
 
+seen_absences = set()
+
 def process_absences(client):
+    global seen_absences
+
     date_from = datetime.date.today()
     date_to = date_from + datetime.timedelta(days=30)
 
     absences = client.lessons(date_from, date_to)
     absences_data = []
-    lessons_dict = {}
-    seen = set()
 
     for h in absences:
-        lessons_dict[h.id] = {
-            "status": h.status,
-            "start": h.start,
-            "end": h.end
-        }
+        if h.status in ["Cours annulé", "Prof. absent", "Absences de professeur"]:
+            start = h.start.isoformat() if h.start else "Unknown",
+            end = h.end.isoformat() if h.end else "Unknown"
 
-    for h in absences:
-        if h.start not in seen:
-            if h.status in ["Cours annulé", "Prof. absent", "Absences de professeur"]:
-                overlapping = any(
-                    lesson["status"] != "None" and
-                    (h.start < lesson["end"] and h.end > lesson["start"])
-                    for lesson in lessons_dict.values()
-                )
-                if overlapping:
-                    continue
+            unique_key = f"{start}-{end}"
+        
+            if unique_key not in seen_absences:
                 absences_info = {
                     "id": h.id,
                     "type": "absences",
@@ -39,8 +32,8 @@ def process_absences(client):
                     "end": h.end.isoformat() if h.end else "Unknown"
                 }
                 absences_data.append(absences_info)
-                seen.add(h.start)
-
+                seen_absences.add(unique_key)
+            
     absences_data.sort(key=lambda x: x["start"])
 
     if absences_data:

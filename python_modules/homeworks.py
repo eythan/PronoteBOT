@@ -29,7 +29,6 @@ def process_homeworks(client):
                 "date": date
             }
             homeworks_data.append(homeworks_info)
-
             seen_homeworks.add(unique_key)
 
     homeworks_data.sort(key=lambda x: x["date"])

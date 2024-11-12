@@ -13,10 +13,10 @@ PronoteBOT allows you to send absences and homework to different Discord channel
 ## Dependencies
 
  - [Node.js](https://nodejs.org/en)
- - [python (3.12.6)](https://www.python.org/downloads/release/python-3126/)
+ - [python (3.12.7)](https://www.python.org/downloads/release/python-3126/)
 
  > [!WARNING]
->Only python 3.12.6 works don't download a newer version
+>Only python 3.12.7 works don't download a newer version
 
 ## Installation
 
